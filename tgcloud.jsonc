@@ -1,0 +1,6 @@
+{
+  "static": {
+    "source": "out"
+  },
+  "$schema": "./node_modules/@tgcloud/cli/schema/tgcloud.json"
+}
