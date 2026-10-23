@@ -1,0 +1,10 @@
+PRAGMA defer_foreign_keys=TRUE;
+CREATE TABLE allowed_students (     student_code TEXT PRIMARY KEY,     is_active INTEGER NOT NULL DEFAULT 1 );
+CREATE TABLE reservations (     id INTEGER PRIMARY KEY AUTOINCREMENT,     student_code TEXT NOT NULL,     reservation_date TEXT NOT NULL,     start_time TEXT NOT NULL,     end_time TEXT NOT NULL,     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,     FOREIGN KEY (student_code)         REFERENCES allowed_students(student_code),     UNIQUE (reservation_date, start_time) );
+CREATE TABLE students (     id INTEGER PRIMARY KEY AUTOINCREMENT,     student_code TEXT NOT NULL UNIQUE,     full_name TEXT NOT NULL,     phone TEXT NOT NULL,     status TEXT NOT NULL DEFAULT 'pending'         CHECK (status IN ('pending', 'approved', 'rejected')),     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP );
+INSERT INTO "students" ("id","student_code","full_name","phone","status","created_at") VALUES(1,'TEST14001','Test User','09120000000','approved','2026-10-22 23:41:06');
+DELETE FROM sqlite_sequence;
+INSERT INTO "sqlite_sequence" ("name","seq") VALUES('students',3);
+CREATE INDEX idx_reservations_student ON reservations(student_code);
+CREATE INDEX idx_reservations_date ON reservations(reservation_date);
+CREATE INDEX idx_students_status ON students(status);
